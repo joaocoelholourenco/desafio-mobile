@@ -1,20 +1,32 @@
+import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { ThemeProvider } from "styled-components";
+import {
+  useFonts,
+  Roboto_400Regular,
+  Roboto_500Medium,
+} from "@expo-google-fonts/roboto";
+
+import Employees from "@screens/Employees";
+import theme from "./src/theme";
+import { UsersProvider } from "@contexts/UsersContext";
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Roboto_500Medium,
+    Roboto_400Regular,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Hello BeMobile</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ThemeProvider theme={theme}>
+      <StatusBar style="dark" />
+      <UsersProvider>
+        <Employees />
+      </UsersProvider>
+    </ThemeProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#F0F0F0",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
